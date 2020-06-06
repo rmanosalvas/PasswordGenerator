@@ -1,5 +1,3 @@
-console.log("hello");
-
 // Assignment Code
 var password = document.querySelector("#password");
 var generateBtn = document.querySelector("#generate");
@@ -11,10 +9,10 @@ var lengthNumber = document.querySelector("#length");
 
 
 var critPass = {
-    lower: randomLower,
-    upper: randomUpper,
-    number: randomNumber,
-    special: randomSpecial,
+    lower: randomLower(),
+    upper: randomUpper(),
+    number: randomNumber(),
+    special: randomSpecial(),
 };
 
 generateBtn.addEventListener("click", function (event) {
@@ -32,7 +30,7 @@ generateBtn.addEventListener("click", function (event) {
 
 function passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symbolChecked, length) {
 
-    var createdPassword = " ";
+    var createdPassword = "";
 
     console.log(createdPassword);
 
@@ -51,22 +49,15 @@ function passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symb
         symbolChecked
     }].filter(item => Object.values(item)[0]);
 
-    console.log(checkedArray);
-
     for (var i = 0; i < length; i += checkedBox) {
         checkedArray.forEach(type => {
             var finalKey = Object.keys(type)[0];
 
-            // createdPassword += criteria[finalKey]();
-
-            createdPassword += critPass(finalKey);
-
-            console.log(finalKey);
         });
-
     };
 
-    console.log(passwordCreator);
+    console.log(createdPassword);
+
 
 };
 
@@ -100,15 +91,3 @@ function randomSpecial() {
 
 // alert("Password needs to be between 8 and 128 characters");
 
-// var howMany = parseInt(prompt("How many characters would you like your password to be?"));
-// if (howMany > 8  howMany < 128) {
-//     alert("hello");
-//     return;
-// };
-
-// var specialChar = confirm("Click OK if you would like to include special characters");
-// var numericChar = confirm("Click OK if you would like to include numeric characters");
-// var lowerChar = confirm("Click OK if you would like to include lower case characters");
-// var upperChar = confirm("Click OK if you would like to include upper case characters");
-
-// howMany = parseInt(howMany);
