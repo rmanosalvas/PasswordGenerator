@@ -7,6 +7,8 @@ var numberBox = document.querySelector("#number");
 var symbolBox = document.querySelector("#symbol");
 var lengthNumber = document.querySelector("#length");
 
+
+
 // Variable with objects of Generators for Lowercase, Uppercase, Symbols, and Numbers
 var critPass = {
     lower: randomLower(),
@@ -15,55 +17,97 @@ var critPass = {
     special: randomSpecial(),
 };
 
+
+
+
+
 // Click functions added to the Generate Password button
 generateBtn.addEventListener("click", function (event) {
     event.preventDefault();
-    var length = parseInt(lengthNumber.value);
+    var passwordLength = parseInt(lengthNumber.value)
     var lowercaseChecked = lowercaseBox.checked;
     var uppercaseChecked = uppercaseBox.checked;
     var numberChecked = numberBox.checked;
     var symbolChecked = symbolBox.checked;
 
-    password.innerHTML = passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symbolChecked, length);
+    // password.innerHTML = passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symbolChecked, length);
 
-    console.log(length);
+    if (passwordLength > 128) {
+        alert("Please choose a number between 8 and 128");
+        return;
+    }
+
+    if (passwordLength < 8) {
+        alert("Please choose a number between 8 and 128");
+        return;
+    }
+
+    console.log(passwordLength);
+    passwordCreator()
 });
 
+
+
+
 // Password creator function, activated inside the Generate Button function
-function passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symbolChecked, length) {
+function passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symbolChecked, passwordLength) {
 
 
     // Could not connect the for loop to this variable 
     var createdPassword = "";
 
-    console.log(createdPassword);
-
-
     var checkedBox = lowercaseChecked + uppercaseChecked + numberChecked + symbolChecked;
 
-    console.log("checkedBox: ", checkedBox);
 
-    var checkedArray = [{
-        lowercaseChecked
-    }, {
-        uppercaseChecked
-    }, {
-        numberChecked
-    }, {
-        symbolChecked
-    }].filter(item => Object.values(item)[0]);
+    for (i = 0; i < passwordLength; i++) {
+
+        if (lowercaseChecked === true) {
+            createdPassword += randomLower();
+        }
+
+        if (uppercaseChecked === true) {
+            createdPassword += randomUpper();
+        }
+
+        if (numberChecked === true) {
+            createdPassword += randomNumber();
+        }
+
+        if (symbolChecked === true) {
+            createdPassword += randomSymbol();
+        }
+    };
+
+    console.log(createdPassword)
+
+    password.textContent = createdPassword;
+
+    // console.log("checkedBox ", checkedBox);
+
+    // var checkedArray = [{
+    //     lowercaseChecked
+    // }, {
+    //     uppercaseChecked
+    // }, {
+    //     numberChecked
+    // }, {
+    //     symbolChecked
+    // }].filter(item => Object.values(item)[0]);
 
     // For Loop to go through the arrays of checked boxes
-    for (var i = 0; i < length; i += checkedBox) {
-        checkedArray.forEach(type => {
-            var finalKey = Object.keys(type)[0];
+    // for (var i = 0; i < length; i += checkedBox) {
+    //     checkedArray.forEach(type => {
+    //         var finalKey = Object.keys(type)[0];
 
-            createdPassword += critPass[finalKey]();
+    //         createdPassword += critPass[finalKey]();
 
-            // My problem came here, I could not figure out why the critPass[finalKey]() would not call. 
-        });
-    };
+    //         My problem came here, I could not figure out why the critPass[finalKey]() would not call. 
+    //     });
+    // };
 };
+
+
+
 
 
 // Here is a list of functions that contain the criteria available to the user
