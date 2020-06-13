@@ -52,21 +52,22 @@ generateBtn.addEventListener("click", function (event) {
 // Password creator function, activated inside the Generate Button function
 function passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symbolChecked, passwordLength) {
 
-
     // Could not connect the for loop to this variable 
     var createdPassword = "";
 
     var checkedBox = lowercaseChecked + uppercaseChecked + numberChecked + symbolChecked;
 
 
-    for (i = 0; i < passwordLength; i++) {
+    for (i = 0; i < 8; i++) {
 
         if (lowercaseChecked === true) {
             createdPassword += randomLower();
+            console.log("it works")
         }
 
         if (uppercaseChecked === true) {
             createdPassword += randomUpper();
+            console.log("it works");
         }
 
         if (numberChecked === true) {
@@ -76,6 +77,8 @@ function passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symb
         if (symbolChecked === true) {
             createdPassword += randomSymbol();
         }
+
+        
     };
 
     console.log(createdPassword)
@@ -115,9 +118,11 @@ function randomLower() {
     return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
 };
 
+
 function randomUpper() {
     return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
 };
+
 
 function randomNumber() {
     return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
@@ -127,3 +132,4 @@ function randomSpecial() {
     var symbols = "!@#$%^&*()~?/";
     return symbols[Math.floor(Math.random() * symbols.length)];
 };
+
