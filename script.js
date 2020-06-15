@@ -7,19 +7,17 @@ var numberBox = document.querySelector("#number");
 var symbolBox = document.querySelector("#symbol");
 var lengthNumber = document.querySelector("#length");
 
-
-
-// Variable with objects of Generators for Lowercase, Uppercase, Symbols, and Numbers
-var critPass = {
-    lower: randomLower(),
-    upper: randomUpper(),
-    number: randomNumber(),
-    special: randomSpecial(),
-};
-
-
-
-
+// Here is a list of variables that contain the criteria available to the user
+var lowerChar = arrLowHigh(97, 122)
+var upperChar = arrLowHigh(65, 90)
+var numberChar = arrLowHigh(48, 57)
+var symbolChar = arrLowHigh(33, 47).concat(
+    arrLowHigh(58, 64)
+).concat(
+    arrLowHigh(91, 96)
+).concat(
+    arrLowHigh(123, 126)
+)
 
 // Click functions added to the Generate Password button
 generateBtn.addEventListener("click", function (event) {
@@ -29,8 +27,6 @@ generateBtn.addEventListener("click", function (event) {
     var uppercaseChecked = uppercaseBox.checked;
     var numberChecked = numberBox.checked;
     var symbolChecked = symbolBox.checked;
-
-    // password.innerHTML = passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symbolChecked, length);
 
     if (passwordLength > 128) {
         alert("Please choose a number between 8 and 128");
@@ -42,8 +38,9 @@ generateBtn.addEventListener("click", function (event) {
         return;
     }
 
-    console.log(passwordLength);
-    passwordCreator()
+    passwordGenerator = passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symbolChecked, passwordLength);
+    password.innerText = passwordGenerator;
+
 });
 
 
@@ -52,84 +49,47 @@ generateBtn.addEventListener("click", function (event) {
 // Password creator function, activated inside the Generate Button function
 function passwordCreator(lowercaseChecked, uppercaseChecked, numberChecked, symbolChecked, passwordLength) {
 
-    // Could not connect the for loop to this variable 
-    var createdPassword = "";
+    var checkedBox = [];
 
-    var checkedBox = lowercaseChecked + uppercaseChecked + numberChecked + symbolChecked;
-
-
-    for (i = 0; i < 8; i++) {
-
-        if (lowercaseChecked === true) {
-            createdPassword += randomLower();
-            console.log("it works")
-        }
-
-        if (uppercaseChecked === true) {
-            createdPassword += randomUpper();
-            console.log("it works");
-        }
-
-        if (numberChecked === true) {
-            createdPassword += randomNumber();
-        }
-
-        if (symbolChecked === true) {
-            createdPassword += randomSymbol();
-        }
-
-        
+    if (lowercaseChecked) {
+        console.log("has lower");
+        checkedBox = checkedBox.concat(lowerChar);
     };
 
-    console.log(createdPassword)
+    if (uppercaseChecked) {
+        console.log("has upper")
+        checkedBox = checkedBox.concat(upperChar);
+    };
 
-    password.textContent = createdPassword;
+    if (numberChecked) {
+        console.log("has number")
+        checkedBox = checkedBox.concat(numberChar);
+    };
 
-    // console.log("checkedBox ", checkedBox);
+    if (symbolChecked) {
+        console.log("has symbol")
+        checkedBox = checkedBox.concat(symbolChar);
+    };
 
-    // var checkedArray = [{
-    //     lowercaseChecked
-    // }, {
-    //     uppercaseChecked
-    // }, {
-    //     numberChecked
-    // }, {
-    //     symbolChecked
-    // }].filter(item => Object.values(item)[0]);
+    console.log(checkedBox.length);
 
-    // For Loop to go through the arrays of checked boxes
-    // for (var i = 0; i < length; i += checkedBox) {
-    //     checkedArray.forEach(type => {
-    //         var finalKey = Object.keys(type)[0];
+    var createdPassword = [];
 
-    //         createdPassword += critPass[finalKey]();
+    for (let i = 0; i < passwordLength; i++) {
+        var codes = checkedBox[Math.floor(Math.random() * checkedBox.length)];
+        createdPassword.push(String.fromCharCode(codes));
+    }
+    console.log(createdPassword);
+    return createdPassword.join(" ");
 
-    //         My problem came here, I could not figure out why the critPass[finalKey]() would not call. 
-    //     });
-    // };
 };
 
 
-
-
-
-// Here is a list of functions that contain the criteria available to the user
-function randomLower() {
-    return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-};
-
-
-function randomUpper() {
-    return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
-};
-
-
-function randomNumber() {
-    return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
-};
-
-function randomSpecial() {
-    var symbols = "!@#$%^&*()~?/";
-    return symbols[Math.floor(Math.random() * symbols.length)];
-};
-
+// Here is a function that will pull in the parameters from my charCode variables 
+function arrLowHigh(low, high) {
+    const array = []
+    for (let i = low; i <= high; i++) {
+        array.push(i)
+    }
+    return array
+}
